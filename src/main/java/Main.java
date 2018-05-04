@@ -10,8 +10,14 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
         //File workingDir = new File("/home/nharrand/Documents/igrida_jobs/sosiefier");
-        File workingDir = new File("/home/nharrand/Documents/sosie/sosiefier");
-        genXploration(workingDir);
+
+
+        File workingDir = new File("/home/lyadis/Documents/");
+        genConfigProperties(workingDir);
+
+
+        //File workingDir = new File("/home/nharrand/Documents/sosie/sosiefier");
+        //genXploration(workingDir);
 
 
         //File workingDir = new File("/home/nharrand/Documents/igrida_jobs/sosiefier");
@@ -259,6 +265,37 @@ public class Main {
 
         File runFile = new File(workingDir, "runExploration.sh");
         Utils.writeFile(runFile, run);
+
+
+    }
+
+    public static void genConfigProperties(File workingDir) {
+        File expDir = new File(workingDir, "config");
+        if(!expDir.exists()) {
+            expDir.mkdir();
+        }
+
+        Map<String,String> projects = new HashMap<String,String>();
+        projects.put("commons-codec","6");
+        projects.put("commons-collections","5");
+        projects.put("commons-lang","6");
+        projects.put("commons-io","6");
+        projects.put("gson/gson","5");
+        projects.put("jgit","6");
+        String template = Utils.getTemplateByID("config.properties");
+        for(Map.Entry<String,String> project : projects.entrySet()) {
+            String config = template;
+            config = config.replace("#PROJECT#", project.getKey());
+            config = config.replace("#JAVA_VERSION#", project.getValue());
+
+            File projectDir = new File(expDir, project.getKey().split("/")[0]);
+            if(!projectDir.exists()) {
+                projectDir.mkdir();
+            }
+
+            File configFile = new File(projectDir, "properties.properties");
+            Utils.writeFile(configFile, config);
+        }
 
 
     }
