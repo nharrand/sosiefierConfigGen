@@ -90,6 +90,12 @@ public class Main {
                     properties = properties.replace("#ProjectDir#", project);
                 properties = properties.replace("#javaVersion#", projects.get(project));
                 properties = properties.replace("#transfo#", exp);
+
+                if(project.equals("jgit")) {
+                    properties += "\n" +
+                            "src=org.eclipse.jgit/src\n";
+                }
+
                 File runFile = new File(workingDir, "" + project + "_" + exp + ".properties");
                 Utils.writeFile(runFile, properties);
                 configs.add("configurationFiles/result/" + project + "_" + exp + ".properties");
@@ -248,6 +254,11 @@ public class Main {
                 config = config.replace("#PROJECT_DIR#", project.getKey());
             config = config.replace("#PROJECT#", project.getKey());
             config = config.replace("#JAVA_VERSION#", project.getValue());
+
+            if(project.getKey().equals("jgit")) {
+                config += "\n" +
+                        "src=org.eclipse.jgit/src\n";
+            }
 
             File configFile = new File(expDir, project.getKey() + ".properties");
             Utils.writeFile(configFile, config);

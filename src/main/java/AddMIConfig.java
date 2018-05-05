@@ -26,6 +26,12 @@ public class AddMIConfig {
             config = config.replace("#PROJECTPATH#", project);
         }
 
+        if(project.equals("jgit")) {
+            config += "\n" +
+                    "src=org.eclipse.jgit/src\n";
+        }
+
+
         config = config.replace("#INTERNAL#", "" + isIntern);
         config = config.replace("#EXTTERNAL#", "" + !isIntern);
         config = config.replace("#STATIC#", "" + isStatic);
