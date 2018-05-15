@@ -12,7 +12,7 @@ public class Main {
         //File workingDir = new File("/home/nharrand/Documents/igrida_jobs/sosiefier");
 
 
-        File workingDir = new File("/home/lyadis/Documents/");
+        File workingDir = new File("/home/nharrand/Documents/sosie");
         genConfigProperties(workingDir);
 
 
@@ -293,12 +293,35 @@ public class Main {
         projects.put("commons-io","6");
         projects.put("gson/gson","5");
         projects.put("jgit","6");
+        Map<String,String> projectsPackage = new HashMap<String,String>();
+        projectsPackage.put("commons-codec","org.apache.commons.codec");
+        projectsPackage.put("commons-collections","org.apache.commons.collections4");
+        projectsPackage.put("commons-lang","org.apache.commons.lang3");
+        projectsPackage.put("commons-io","org.apache.commons.io");
+        projectsPackage.put("gson/gson","com.google.gson");
+        projectsPackage.put("jgit","org.eclipse.jgit");
         String template = Utils.getTemplateByID("config.properties");
         for(Map.Entry<String,String> project : projects.entrySet()) {
             String config = template;
             config = config.replace("#PROJECT#", project.getKey());
             config = config.replace("#JAVA_VERSION#", project.getValue());
+            config = config.replace("#PACKAGE#", projectsPackage.get(project.getKey()));
 
+            if(project.getKey().equals("jgit")) {
+                config += "\n" +
+                        "src=org.eclipse.jgit/src\n";
+                config += "\n" +
+                        "traceExclude=org.eclipse.jgit.ant," +
+                        "org.eclipse.jgit.archive," +
+                        "org.eclipse.jgit.console," +
+                        "org.eclipse.jgit.http," +
+                        "org.eclipse.jgit.java7," +
+                        "org.eclipse.jgit.junit," +
+                        "org.eclipse.jgit.packaging," +
+                        "org.eclipse.jgit.pgm," +
+                        "org.eclipse.jgit.test," +
+                        "org.eclipse.jgit.ui";
+            }
             File projectDir = new File(expDir, project.getKey().split("/")[0]);
             if(!projectDir.exists()) {
                 projectDir.mkdir();
