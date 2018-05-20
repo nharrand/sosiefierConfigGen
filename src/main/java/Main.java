@@ -12,8 +12,8 @@ public class Main {
         //File workingDir = new File("/home/nharrand/Documents/igrida_jobs/sosiefier");
 
 
-        File workingDir = new File("/home/nharrand/Documents/sosie");
-        genConfigProperties(workingDir);
+        //File workingDir = new File("/home/nharrand/Documents/sosie");
+        //genConfigProperties(workingDir);
 
 
         //File workingDir = new File("/home/nharrand/Documents/sosie/sosiefier");
@@ -23,8 +23,8 @@ public class Main {
         //File workingDir = new File("/home/nharrand/Documents/igrida_jobs/sosiefier");
         //genOarScript(workingDir);
 
-        //File workingDir = new File("/home/nharrand/Documents/sosie/sosiefier/newExp2");
-        //generateOtherExp(workingDir);
+        File workingDir = new File("/home/nharrand/Documents/sosie/sosiefier/newExp3");
+        generateOtherExp(workingDir);
 
         //File workingDir = new File("/home/nharrand/Documents/sosie/sosiefier/configurationFiles/result");
         //generateReadResults(workingDir);
@@ -128,13 +128,13 @@ public class Main {
         List<String> transformations = new LinkedList<String>();
         transformations.add("loopflip");
         transformations.add("swapsubtype");
-        transformations.add("removecheck");
+        //transformations.add("removecheck");
 
         Map<String,String> projects = new HashMap<String,String>();
-        /*projects.put("commons-lang","6");
+        projects.put("commons-lang","6");
         projects.put("commons-codec","6");
         projects.put("commons-collections","5");
-        projects.put("commons-io","6");*/
+        projects.put("commons-io","6");
         projects.put("gson","5");
         projects.put("jgit","6");
 
@@ -154,9 +154,9 @@ public class Main {
         for(String c : configs) {
             String tmp = c.replace("/", "_");
             String tmp2 = tmp.replace(".properties", "");
-            run += "echo \"Run on newExp/" + c + "\"\n";
-            run += "java -cp main/target/main-1.0.0-jar-with-dependencies.jar fr.inria.diversify.Main newExp/"
-                    + c + " > newExp/log/" + tmp2 + "\n";
+            run += "echo \"Run on " + workingDir.getName() + "/" + c + "\"\n";
+            run += "java -cp main/target/main-1.0.0-jar-with-dependencies.jar fr.inria.diversify.Main " + workingDir.getName() + "/"
+                    + c + " > " + workingDir.getName() + "/log/" + tmp2 + "\n";
         }
         File runFile = new File(workingDir, "run.sh");
         Utils.writeFile(runFile, run);

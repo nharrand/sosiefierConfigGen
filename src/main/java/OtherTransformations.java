@@ -19,11 +19,19 @@ public class OtherTransformations {
     }
 
     public String generate() {
+        String path = projectName;
+        if(projectName.equals("gson")) path = "gson/gson";
         String templateContent = Utils.getTemplateByID("properties.properties");
-        templateContent = templateContent.replace("#Project#", projectName);
+        templateContent = templateContent.replace("#Project#", path);
         templateContent = templateContent.replace("#javaVersion#", javaVersion);
         templateContent = templateContent.replace("#transformation#", transformation);
         templateContent = templateContent.replace("#resultDir#", transformation + "/" + projectName);
+        templateContent = templateContent.replace("#PROJECTPATH#", path);
+        if(projectName.equals("jgit")) {
+            templateContent += "\n" +
+                    "src=org.eclipse.jgit/src\n";
+        }
+        templateContent = templateContent.replace("runner=simple", "runner=smart");
 
         File resultDir = new File(workingDir, "result/" + transformation + "/" + projectName);
         resultDir.mkdirs();
